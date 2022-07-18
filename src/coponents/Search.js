@@ -9,8 +9,13 @@ export default function SearchComponent({
   const [searchBookList, setSearchBookList] = useState([]);
   async function handleSearch(val) {
     let result = await Search(val);
-    setSearchBookList(result.books);
-    console.log({ result });
+    if (!result?.books?.error && val !== "") {
+      setSearchBookList(result.books);
+      console.log({ result });
+    } else {
+      setSearchBookList([]);
+    }
+
     //setData(result);
   }
   return (

@@ -16,12 +16,12 @@ function Tile({ book, handleSelection }) {
         style={{
           width: 128,
           height: 174,
-          backgroundImage: `url(${book.imageLinks.thumbnail})`,
+          backgroundImage: `url(${book?.imageLinks?.thumbnail})`,
         }}
       ></div>
       <div className="book-shelf-changer">
         <select
-          value={book.shelf ? book.shelf : "none"}
+          value={book?.shelf ? book.shelf : "none"}
           onChange={(e) => handleSelection(book, e)}
         >
           <option value="none" disabled>
@@ -39,9 +39,11 @@ function Tile({ book, handleSelection }) {
           textOverflow: "ellipsis",
         }}
       >
-        {book.title}
+        {book?.title}
       </span>
-      <span style={{ color: "gray" }}>{book.authors[0]}</span>
+      <span style={{ color: "gray" }}>
+        {book?.authors ? book.authors[0] : ""}
+      </span>
     </div>
   );
 }
