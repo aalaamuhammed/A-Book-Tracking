@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Section from "./coponents/Section";
 import Search from "./coponents/Search";
-import { GetAllBooks } from "./utilities/BookAPI";
+import { GetAllBooks, UpdateBook } from "./utilities/BookAPI";
 export default function Home() {
   const [data, setData] = useState([]);
   const [showSearchPage, setShowSearchpage] = useState(false);
@@ -12,10 +12,14 @@ export default function Home() {
     };
     loadBooks();
   }, []);
-  const handleSelection = (book, e) => {
+  const handleSelection = async (book, e) => {
     book.shelf = e.target.value;
-    const updatedBooks = data.filter((element) => element.id !== book.id);
-    setData([...updatedBooks, book]);
+    UpdateBook(book)
+      .then((res) => {
+        const updatedBooks = data.filter((element) => element.id !== book.id);
+        setData([...updatedBooks, book]);
+      })
+      .catch((e) => console.log({ e }));
   };
   const Sections = [
     { title: "Currently Reading", filter: "currentlyReading" },
@@ -23,12 +27,7 @@ export default function Home() {
     { title: "Read", filter: "read" },
   ];
 
-  return showSearchPage ? (
-    <Search
-      setShowSearchpage={setShowSearchpage}
-      handleSelection={handleSelection}
-    />
-  ) : (
+  return (
     <div
       style={{
         display: "flex",
@@ -57,7 +56,7 @@ export default function Home() {
       ))}
 
       <div className="open-search">
-        <a onClick={() => setShowSearchpage(!showSearchPage)}>Add a book</a>
+        <a href="/Search">Add a book</a>
       </div>
     </div>
   );

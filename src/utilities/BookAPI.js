@@ -8,6 +8,15 @@ export function GetAllBooks() {
     });
 }
 
-export function Search(query, maxResults) {
-  return Axios.post(`/search`, { query, maxResults }).then((res) => res.data);
+export async function Search(query, maxResults) {
+  try {
+    const res = await Axios.post(`/search`, { query, maxResults });
+    return res.data;
+  } catch (error) {
+    return [];
+  }
+}
+
+export function UpdateBook(book) {
+  return Axios.put(`/books/${book.id}`, { shelf: book.shelf });
 }
